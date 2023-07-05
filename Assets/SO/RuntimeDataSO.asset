@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c497f1fae769854381db4e07e37a6df, type: 3}
+  m_Name: RuntimeDataSO
+  m_EditorClassIdentifier: 
+  <gamestateData>k__BackingField:
+    <gameplayTime>k__BackingField: 180
+    <createGarbageCount>k__BackingField: 20
+    <createHitEffectCount>k__BackingField: 60
+  <clickerData>k__BackingField:
+    <hitCheckTime>k__BackingField: 0.15
+  <planetData>k__BackingField:
+    <maxHealth>k__BackingField: 100
+    <hitColor>k__BackingField: {r: 0.5577163, g: 0.6677721, b: 0.7830189, a: 1}
+  <garbageData>k__BackingField:
+    <scores>k__BackingField: 02000000040000000600000008000000
+    <minMoveSpeed>k__BackingField: 0
+    <maxMoveSpeed>k__BackingField: 0
+    <minRotationSpeed>k__BackingField: 0
+    <maxRotationSpeed>k__BackingField: 0
+    <minSpawnTime>k__BackingField: 0
+    <maxSpawnTime>k__BackingField: 0
+  <objectData>k__BackingField:
+    <garbages>k__BackingField:
+    - {fileID: 3936010889389682989, guid: 5632eac550e2d424496febde2764d30a, type: 3}
+    - {fileID: 6534939134174691484, guid: 49d79ef6a263577428c6957851b2ed91, type: 3}
+    - {fileID: 6509551543237548095, guid: 767bfa2fc7de36d43a39936520786555, type: 3}
+    - {fileID: 9023884706779069049, guid: 00726bf17d34d11418b02bd5a404a9d6, type: 3}
+    <planetHit>k__BackingField: {fileID: 6192724089161036655, guid: e2722fc8d1e38534c91ab28dfbd20bff, type: 3}
+    <garbageHit>k__BackingField: {fileID: 8038344524183138615, guid: a69cb46600c92964b83eeefa525839fc, type: 3}
+  <soundData>k__BackingField:
+    <bgm>k__BackingField: {fileID: 0}
+    <planetHit>k__BackingField: {fileID: 0}
+    <garbageHit>k__BackingField: {fileID: 0}

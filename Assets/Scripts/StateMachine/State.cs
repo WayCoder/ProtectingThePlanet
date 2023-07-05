@@ -4,11 +4,11 @@ using UnityEngine;
 
 public abstract class State 
 {
-    protected StateMachine StateMachine;
+    protected StateMachine stateMachine;
 
     public State(StateMachine stateMachine)
     {
-        StateMachine = stateMachine;    
+        this.stateMachine = stateMachine;    
     }
 
     public abstract void Check();

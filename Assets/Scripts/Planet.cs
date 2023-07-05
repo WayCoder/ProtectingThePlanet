@@ -2,17 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Planet : MonoBehaviour
+public class Planet : MonoBehaviour, IDamageable
 {
-    // Start is called before the first frame update
-    void Start()
+    private float health;
+
+    private int score;
+    
+
+
+
+    public void IncreaseScore(int add)
     {
-        
+        score += add;
     }
 
-    // Update is called once per frame
-    void Update()
+    
+
+    bool IDamageable.OnDamage(int damage)
     {
-        
+        health -= damage;
+
+
+
+
+        return true;
     }
 }
