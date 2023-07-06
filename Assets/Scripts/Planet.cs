@@ -2,29 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Planet : MonoBehaviour, IDamageable
+public class Planet : MonoBehaviour
 {
-    private float health;
+    [field: SerializeField] public float health { get; private set; }
 
-    private int score;
-    
+    private SpriteRenderer spriteRenderer;
+
+    private Color baseColor;
+
+    private Coroutine colorizeCoroutine;
 
 
-
-    public void IncreaseScore(int add)
+    private void Awake()
     {
-        score += add;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        baseColor = spriteRenderer.color;
     }
 
-    
-
-    bool IDamageable.OnDamage(int damage)
+    public void Initialize(float health)
     {
-        health -= damage;
-
-
-
-
-        return true;
+        this.health = health;
     }
+
+
+    public void OnDamage(int score)
+    {
+        health -= score;
+
+        if(colorizeCoroutine != null)
+        {
+            StopCoroutine(colorizeCoroutine);
+        }
+
+        colorizeCoroutine = StartCoroutine(HitColorize());
+    }
+
+
+    private IEnumerator HitColorize()
+    {
+        spriteRenderer.color = GameManager.instance.data.planetData.hitColor;
+
+        yield return new WaitForSeconds(GameManager.instance.data.planetData.colorizeTime);
+
+        spriteRenderer.color = baseColor;
+    }
+
+
 }

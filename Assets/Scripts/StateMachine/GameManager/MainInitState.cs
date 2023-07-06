@@ -28,6 +28,14 @@ public class MainInitState : State
             ObjectManager.instance.CreateGarbage(index, gameManager.data.gamestateData.createGarbageCount);
         }
 
+        for (int index = 0; index < gameManager.data.objectData.hit.Length; index++)
+        {
+            ObjectManager.instance.CreateHitEffect((ObjectManager.HitEffectKey)index, gameManager.data.gamestateData.createHitEffectCount);
+        }
+
+        UIManager.instance.SetTitlePanelUI(true, gameManager.data.uiData.titleText, gameManager.data.uiData.startText);
+
+
 
     }
 
@@ -38,6 +46,6 @@ public class MainInitState : State
 
     public override void Exit()
     {
-       
+        UIManager.instance.SetTitlePanelUI(false);
     }
 }

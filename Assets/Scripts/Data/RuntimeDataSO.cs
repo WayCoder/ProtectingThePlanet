@@ -39,7 +39,9 @@ public class PlanetData
 {
     [field: SerializeField] public int maxHealth { get; private set; }
     [field: SerializeField] public Color hitColor { get; private set; }
+    [field: SerializeField] public float colorizeTime { get; private set; }
 }
+
 
 [Serializable]
 public class GarbageData
@@ -53,6 +55,7 @@ public class GarbageData
     [field: SerializeField] public float maxSpawnTime { get; private set; }
 }
 
+
 [Serializable]
 public class ObjectData
 {
@@ -60,8 +63,8 @@ public class ObjectData
 
     [field: SerializeField] public ParticleSystem[] hit { get; private set; }
    
-
 }
+
 
 [Serializable]
 public class SoundData
@@ -71,9 +74,14 @@ public class SoundData
     [field: SerializeField] public AudioClip garbageHit { get; private set; }
 }
 
+
 [Serializable]
 public class UIData
 {
-
-
+    [field: SerializeField] public string titleText { get; private set; }
+    [field: SerializeField] public string endingText { get; private set; }
+    [field: SerializeField] public string startText { get; private set; }
+    [field: SerializeField] public string retryText { get; private set; }
+    [field: SerializeField] public Color timerBaseColor { get; private set; }
+    [field: SerializeField] public Color timerRedColor { get; private set; }
 }

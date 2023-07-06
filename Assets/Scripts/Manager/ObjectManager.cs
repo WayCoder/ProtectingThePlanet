@@ -18,8 +18,6 @@ public class ObjectManager : MonoBehaviour
 
     private Dictionary<HitEffectKey, Queue<ParticleSystem>> hitEffectMap;
 
-    private ObjectData objectData;
-
     private void Awake()
     {
         if (instance != null)
@@ -36,14 +34,17 @@ public class ObjectManager : MonoBehaviour
         hitEffectMap = new Dictionary<HitEffectKey, Queue<ParticleSystem>>();    
     }
 
-    private void Start()
+    public void AllUnactivate()
     {
-        objectData = GameManager.instance.data.objectData;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
     }
 
     public void CreateGarbage(int key, int count)
     {
-        if (key >= objectData.garbages.Length)
+        if (key >= GameManager.instance.data.objectData.garbages.Length)
         {
             return;
         }
@@ -55,7 +56,7 @@ public class ObjectManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            Instantiate(objectData.garbages[key], transform).gameObject.SetActive(false);
+            Instantiate(GameManager.instance.data.objectData.garbages[key], transform).gameObject.SetActive(false);
         }
     }
     public void ReturnGarbage(Garbage garbage, int key)
@@ -81,7 +82,7 @@ public class ObjectManager : MonoBehaviour
     }
     public void CreateHitEffect(HitEffectKey key, int count)
     {
-        if (key >= HitEffectKey.End)
+        if ((int)key >= GameManager.instance.data.objectData.hit.Length)
         {
             return;
         }
@@ -93,7 +94,7 @@ public class ObjectManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            ParticleSystem effect = Instantiate(objectData.hit[(int)key], transform);
+            ParticleSystem effect = Instantiate(GameManager.instance.data.objectData.hit[(int)key], transform);
 
             effect.gameObject.SetActive(false);
 
@@ -103,16 +104,52 @@ public class ObjectManager : MonoBehaviour
 
     public void OnHitEffect(HitEffectKey key, Vector2 position)
     {
+        if (!hitEffectMap.ContainsKey(key))
+        {
+            hitEffectMap.Add(key, new Queue<ParticleSystem>());
+        }
 
+        if (hitEffectMap[key].Count == 0)
+        {
+            CreateHitEffect(key, GameManager.instance.data.gamestateData.createHitEffectCount);
+        }
+
+        ParticleSystem effect = hitEffectMap[key].Dequeue();
+
+        effect.transform.position = position;
+
+        effect.gameObject.SetActive(true);
+
+        effect.Play();
+
+        AudioSource source = effect.GetComponent<AudioSource>();
+
+        if (source != null)
+        {
+            source.Play();
+        }
+           
+        StartCoroutine(ReturnEffect(effect, hitEffectMap[key]));
     }
-
-
     private IEnumerator ReturnEffect(ParticleSystem effect, Queue<ParticleSystem> pool)
-    {
+    { 
+        while (true)
+        {
+            if (effect == null || pool == null)
+            {
+                yield break;
+            }
 
-        
+            yield return null;
 
+            if (!effect.IsAlive())
+            {
+                pool.Enqueue(effect);
 
-        yield break;
+                effect.gameObject.SetActive(false);
+
+                yield break;
+            }
+        }
     }
 }

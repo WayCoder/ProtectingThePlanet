@@ -6,7 +6,7 @@ public class Garbage : MonoBehaviour
 {
     [SerializeField] private int index;
 
-    private GarbageData data;
+    private new Rigidbody2D rigidbody;
 
     private Transform target;
 
@@ -14,57 +14,83 @@ public class Garbage : MonoBehaviour
 
     private float rotationSpeed;
 
-    public void Initialize(Transform transform, float moveSpeed, float rotationSpeed)
+    private int planetIndex;
+
+
+    public void Initialize(Transform transform, Vector3 position ,float moveSpeed, float rotationSpeed, int planetIndex)
     {
         target = transform;
+
+        this.transform.position = position;  
 
         this.moveSpeed = moveSpeed;
 
         this.rotationSpeed = rotationSpeed;
-    }
 
+        this.planetIndex = planetIndex;  
 
-
-    private void OnEnable()
-    {
-      
+        gameObject.SetActive(true);
     }
 
     private void OnDisable()
     {
         ObjectManager.instance?.ReturnGarbage(this, index);
 
+        planetIndex = -1;
+
         target = null;
     }
 
-    private void Start()
+    private void Awake()
     {
-        data = GameManager.instance.data.garbageData;
+        rigidbody = GetComponent<Rigidbody2D>();
     }
+
 
     private void Update()
     {
         if (target != null)
         {
-           
-
-
-
-
-
+            transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    { 
-        collision.GetComponent<IDamageable>()?.OnDamage(data.scores[index]);
 
-        if (collision.CompareTag("Clicker"))
+    private void FixedUpdate()
+    {
+        if (target != null)
         {
-            GameManager.instance.IncreaseScore(index, data.scores[index]);
+            Vector2 direction = (target.position - transform.position).normalized;
 
+            Vector2 velocity = direction * moveSpeed;
+
+            rigidbody.AddForce(velocity - rigidbody.velocity);
+        }
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.gameObject.activeSelf)
+        {
+            return;
         }
 
-        gameObject.SetActive(false);
+        switch (collision.tag)
+        {
+            case "Clicker":
+                GameManager.instance.IncreaseScore(planetIndex, GameManager.instance.data.garbageData.scores[index]);
+                ObjectManager.instance.OnHitEffect(ObjectManager.HitEffectKey.Garbage, transform.position);
+                gameObject.SetActive(false);
+                break;
+
+            case "Planet":
+                Planet planet = collision.GetComponent<Planet>();
+                planet?.OnDamage(GameManager.instance.data.garbageData.scores[index]);
+                ObjectManager.instance.OnHitEffect(ObjectManager.HitEffectKey.Planet, collision.ClosestPoint(transform.position));
+                ObjectManager.instance.OnHitEffect(ObjectManager.HitEffectKey.Garbage, transform.position);
+                gameObject.SetActive(false);
+                break;
+        }
     }
 }

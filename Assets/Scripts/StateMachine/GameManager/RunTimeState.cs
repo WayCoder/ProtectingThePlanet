@@ -11,9 +11,13 @@ public class RunTimeState : State
 
     private float remainingTime;
 
+   
+
     public RunTimeState(StateMachine stateMachine, GameManager gameManager) : base(stateMachine)
     {
         this.gameManager = gameManager;
+
+       
     }
     public override void Check()
     {
@@ -28,20 +32,26 @@ public class RunTimeState : State
     {
         gameManager.state = GameManager.State.RunTime;
 
+        gameManager.SetSpawner(true);
+
+        gameManager.GenerateScore();
+
+        gameManager.InitializePlanet();
+
         remainingTime = gameManager.data.gamestateData.gameplayTime;
 
-
+        UIManager.instance.SetTimerUI(true, remainingTime / gameManager.data.gamestateData.gameplayTime, (int)remainingTime);
     }
     public override void Execute()
     {
-
+        UIManager.instance.SetTimerUI(true, remainingTime / gameManager.data.gamestateData.gameplayTime, (int)remainingTime);
 
         remainingTime -= Time.deltaTime;
     }
     public override void Exit()
     {
+       
 
-
-
+        UIManager.instance.SetTimerUI(false);
     }
 }

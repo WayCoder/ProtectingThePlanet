@@ -17,7 +17,10 @@ public class GameManager : MonoBehaviour
     [field: Header("Data")]
     [field: SerializeField] public RuntimeDataSO data { get; private set; }
     [field: SerializeField] public State state { get; set; }
-    
+    [field: SerializeField] public int[] score { get; private set; }
+
+
+  
     [field: Header("Object")]
     [SerializeField] private Planet[] planets;
     [SerializeField] private Spawner spawner;
@@ -36,10 +39,25 @@ public class GameManager : MonoBehaviour
     {
         stateMachine?.ChangeState(runTimeState);
     }
+    public void InitializePlanet()
+    {
+        for (int i = 0; i < planets.Length; i++)
+        {
+            planets[i].Initialize(data.planetData.maxHealth);
+        }
+    }
     public void IncreaseScore(int index, int add)
     {
-        planets[index].IncreaseScore(add);
+        score[index] += add;
     }
+    public void GenerateScore()
+    {
+        for (int i = 0; i < score.Length; i++)
+        {
+            score[i] = 0;
+        }
+    }
+
     public void SetSpawner(bool value)
     {
         spawner.gameObject.SetActive(value);
