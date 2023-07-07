@@ -19,6 +19,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI timeText;
 
+    [SerializeField] private GameObject scoreTextParent;
+
+    [SerializeField] private TextMeshProUGUI[] resultText;
+
+    [SerializeField] private Image[] healthBar;
 
 
     private void Awake()
@@ -51,9 +56,6 @@ public class UIManager : MonoBehaviour
             this.buttonText.text = buttonText;
         }
     }
-
-    //public void 
-
    
     public void SetTimerUI(bool value, float amount = 0f, int time = 0)
     {
@@ -76,6 +78,100 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void SetResultUI(bool value, GameManager.Result result = GameManager.Result.Draw)
+    {
+        if (!value)
+        {
+            foreach(TextMeshProUGUI text in resultText)
+            {
+                text.gameObject.SetActive(false);
+            }
 
+            return;
+        }
+
+        UIData data = GameManager.instance.data.uiData;
+
+        switch(result)
+        {
+            case GameManager.Result.Planet_A:
+                resultText[(int)result].gameObject.SetActive(true);         
+                resultText[(int)result].text = data.winnerText;
+                resultText[(int)result].color = data.winnerTextColor;
+                resultText[(int)GameManager.Result.Planet_B].gameObject.SetActive(true);
+                resultText[(int)GameManager.Result.Planet_B].text = data.loserText;
+                resultText[(int)GameManager.Result.Planet_B].color = data.loserTextColor;
+                break;
+
+
+            case GameManager.Result.Planet_B:
+                resultText[(int)result].gameObject.SetActive(true);
+                resultText[(int)result].text = data.winnerText;
+                resultText[(int)result].color = data.winnerTextColor;
+                resultText[(int)GameManager.Result.Planet_A].gameObject.SetActive(true);
+                resultText[(int)GameManager.Result.Planet_A].text = data.loserText;
+                resultText[(int)GameManager.Result.Planet_A].color = data.loserTextColor;
+                break;
+
+
+            case GameManager.Result.Draw:
+                resultText[(int)result].gameObject.SetActive(true);
+                break;
+        }
+    }
+
+    public void SetHealthBarUI(bool value, int index = -1, float health = 0f, float maxHealth = 0f)
+    {
+        foreach (Image bar in healthBar)
+        {
+            bar.gameObject.SetActive(value);
+        }
+
+        if (index == -1)
+        {
+            return;
+        }
+
+        UIData data = GameManager.instance.data.uiData;
+
+        TextMeshProUGUI textMesh = healthBar[index].GetComponentInChildren<TextMeshProUGUI>();
+
+        Image image = healthBar[index].transform.GetChild(0).GetComponentInChildren<Image>();
+
+        if (value && textMesh && image)
+        {
+            textMesh.text = health.ToString() + "/" + maxHealth.ToString();
+
+            image.fillAmount = health / maxHealth;
+
+            if (image.fillAmount <= data.planetWarningAmount)
+            {
+                image.color = image.fillAmount <= data.planetDangerAmount ? data.planetDangerColor : data.planetWarningColor;
+            }
+            else
+            {
+                image.color = data.planetSafeColor;
+            }
+        }
+
+    }
+
+
+    public void SetScoreTextUI(bool value, int index = -1, int score = 0)
+    {
+        scoreTextParent.gameObject.SetActive(value);
+
+        if (index == -1)
+        {
+            return;
+        }
+
+        TextMeshProUGUI textMesh = scoreTextParent.transform.GetChild(index).GetComponent<TextMeshProUGUI>();
+
+        if (value && textMesh)
+        {
+            textMesh.text = score.ToString();
+        }
+    }
 
 }

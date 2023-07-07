@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    [field: SerializeField] public float health { get; private set; }
+    [field: SerializeField] public int index { get; set; }
+    [field: SerializeField] public float health { get; set; }
 
     private SpriteRenderer spriteRenderer;
 
@@ -35,7 +36,12 @@ public class Planet : MonoBehaviour
             StopCoroutine(colorizeCoroutine);
         }
 
+
+        UIManager.instance.SetHealthBarUI(true, index, health, GameManager.instance.data.planetData.maxHealth);
+
         colorizeCoroutine = StartCoroutine(HitColorize());
+
+        
     }
 
 

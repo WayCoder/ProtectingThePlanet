@@ -16,7 +16,6 @@ public class RuntimeDataSO : ScriptableObject
     [field: SerializeField] public ObjectData objectData { get; private set; }
     [field: SerializeField] public SoundData soundData { get; private set; }
     [field: SerializeField] public UIData uiData { get; private set; }
-
 }
 
 [Serializable]
@@ -25,7 +24,6 @@ public class GameStateData
     [field: SerializeField] public float gameplayTime { get; private set; }
     [field: SerializeField] public int createGarbageCount { get; private set; }
     [field: SerializeField] public int createHitEffectCount { get; private set; }
-
 }
 
 [Serializable]
@@ -40,6 +38,9 @@ public class PlanetData
     [field: SerializeField] public int maxHealth { get; private set; }
     [field: SerializeField] public Color hitColor { get; private set; }
     [field: SerializeField] public float colorizeTime { get; private set; }
+
+
+
 }
 
 
@@ -60,9 +61,7 @@ public class GarbageData
 public class ObjectData
 {
     [field: SerializeField] public Garbage[] garbages { get; private set; }
-
-    [field: SerializeField] public ParticleSystem[] hit { get; private set; }
-   
+    [field: SerializeField] public ParticleSystem[] hitEffect { get; private set; }
 }
 
 
@@ -82,6 +81,15 @@ public class UIData
     [field: SerializeField] public string endingText { get; private set; }
     [field: SerializeField] public string startText { get; private set; }
     [field: SerializeField] public string retryText { get; private set; }
+    [field: SerializeField] public string winnerText { get; private set; }
+    [field: SerializeField] public string loserText { get; private set; }
+    [field: SerializeField] public Color winnerTextColor { get; private set; }
+    [field: SerializeField] public Color loserTextColor { get; private set; }
     [field: SerializeField] public Color timerBaseColor { get; private set; }
     [field: SerializeField] public Color timerRedColor { get; private set; }
+    [field: SerializeField] public Color planetSafeColor { get; private set; }
+    [field: SerializeField] public Color planetWarningColor { get; private set; }
+    [field: SerializeField] public Color planetDangerColor { get; private set; }
+    [field: SerializeField] public float planetWarningAmount { get; private set; }
+    [field: SerializeField] public float planetDangerAmount { get; private set; }
 }

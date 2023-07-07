@@ -13,11 +13,8 @@ public class ObjectManager : MonoBehaviour
     }
 
     public static ObjectManager instance { get; private set; }
-
     private Dictionary<int, Queue<Garbage>> garbageMap;
-
     private Dictionary<HitEffectKey, Queue<ParticleSystem>> hitEffectMap;
-
     private void Awake()
     {
         if (instance != null)
@@ -33,7 +30,6 @@ public class ObjectManager : MonoBehaviour
 
         hitEffectMap = new Dictionary<HitEffectKey, Queue<ParticleSystem>>();    
     }
-
     public void AllUnactivate()
     {
         for (int i = 0; i < transform.childCount; i++)
@@ -41,7 +37,6 @@ public class ObjectManager : MonoBehaviour
             transform.GetChild(i).gameObject.SetActive(false);
         }
     }
-
     public void CreateGarbage(int key, int count)
     {
         if (key >= GameManager.instance.data.objectData.garbages.Length)
@@ -82,7 +77,7 @@ public class ObjectManager : MonoBehaviour
     }
     public void CreateHitEffect(HitEffectKey key, int count)
     {
-        if ((int)key >= GameManager.instance.data.objectData.hit.Length)
+        if ((int)key >= GameManager.instance.data.objectData.hitEffect.Length)
         {
             return;
         }
@@ -94,14 +89,13 @@ public class ObjectManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            ParticleSystem effect = Instantiate(GameManager.instance.data.objectData.hit[(int)key], transform);
+            ParticleSystem effect = Instantiate(GameManager.instance.data.objectData.hitEffect[(int)key], transform);
 
             effect.gameObject.SetActive(false);
 
             hitEffectMap[key].Enqueue(effect);
         }
     }
-
     public void OnHitEffect(HitEffectKey key, Vector2 position)
     {
         if (!hitEffectMap.ContainsKey(key))

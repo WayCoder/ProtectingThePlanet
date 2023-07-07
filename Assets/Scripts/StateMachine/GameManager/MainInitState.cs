@@ -28,7 +28,7 @@ public class MainInitState : State
             ObjectManager.instance.CreateGarbage(index, gameManager.data.gamestateData.createGarbageCount);
         }
 
-        for (int index = 0; index < gameManager.data.objectData.hit.Length; index++)
+        for (int index = 0; index < gameManager.data.objectData.hitEffect.Length; index++)
         {
             ObjectManager.instance.CreateHitEffect((ObjectManager.HitEffectKey)index, gameManager.data.gamestateData.createHitEffectCount);
         }

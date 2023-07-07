@@ -22,13 +22,11 @@ public class EndingState : State
     {
         gameManager.state = GameManager.State.Ending;
 
-        gameManager.SetSpawner(false);
-
         ObjectManager.instance.AllUnactivate();
 
         UIManager.instance.SetTitlePanelUI(true, gameManager.data.uiData.endingText, gameManager.data.uiData.retryText);
 
-
+        UIManager.instance.SetResultUI(true, gameManager.result);
 
     }
 
@@ -43,5 +41,9 @@ public class EndingState : State
     public override void Exit()
     {
         UIManager.instance.SetTitlePanelUI(false);
+
+        UIManager.instance.SetResultUI(false);
+
+        
     }
 }

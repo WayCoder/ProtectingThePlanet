@@ -12,18 +12,24 @@ public class GameManager : MonoBehaviour
         RunTime,
         Ending
     }
+    public enum Result
+    {
+        Planet_A,
+        Planet_B,
+        Draw
+    }
+
 
     #region data
     [field: Header("Data")]
     [field: SerializeField] public RuntimeDataSO data { get; private set; }
     [field: SerializeField] public State state { get; set; }
     [field: SerializeField] public int[] score { get; private set; }
-
-
+    [field: SerializeField] public Result result { get; set; }
   
     [field: Header("Object")]
-    [SerializeField] private Planet[] planets;
-    [SerializeField] private Spawner spawner;
+    [field: SerializeField] public Planet[] planets { get; private set; }
+    [field: SerializeField] public Spawner spawner { get; private set; }
     #endregion
 
     #region state
@@ -49,6 +55,8 @@ public class GameManager : MonoBehaviour
     public void IncreaseScore(int index, int add)
     {
         score[index] += add;
+
+        UIManager.instance.SetScoreTextUI(true, index, score[index]);
     }
     public void GenerateScore()
     {
@@ -57,10 +65,20 @@ public class GameManager : MonoBehaviour
             score[i] = 0;
         }
     }
-
-    public void SetSpawner(bool value)
+    public void CheckScoreWinner()
     {
-        spawner.gameObject.SetActive(value);
+        if (score[0] > score[1])
+        {
+            result = Result.Planet_A;
+        }
+        else if (score[0] < score[1])
+        {
+            result = Result.Planet_B;
+        }
+        else
+        {
+            result = Result.Draw;
+        }
     }
     #endregion
 
