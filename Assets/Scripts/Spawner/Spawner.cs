@@ -52,15 +52,15 @@ public class Spawner : MonoBehaviour
 
             garbage2 = ObjectManager.instance.GetGarbage(garbageIndex);
 
+            moveSpeed = Random.Range(data.garbageData.minMoveSpeed, data.garbageData.maxMoveSpeed);
+
+            rotationSpeed = Random.Range(data.garbageData.minRotationSpeed, data.garbageData.maxRotationSpeed);
+
             targetIndex = Random.Range(0, positions.Length - 1);
 
             position1 = positions[targetIndex].position1;
 
             position2 = positions[targetIndex].position2;
-
-            moveSpeed = Random.Range(data.garbageData.minMoveSpeed, data.garbageData.maxMoveSpeed);
-
-            rotationSpeed = Random.Range(data.garbageData.minRotationSpeed, data.garbageData.maxRotationSpeed);
 
             garbage1.Initialize(planets[0].transform, position1, moveSpeed, rotationSpeed, 0);
 

@@ -28,8 +28,8 @@ MonoBehaviour:
     <maxMoveSpeed>k__BackingField: 3.5
     <minRotationSpeed>k__BackingField: 100
     <maxRotationSpeed>k__BackingField: 350
-    <minSpawnTime>k__BackingField: 0.25
-    <maxSpawnTime>k__BackingField: 0.99
+    <minSpawnTime>k__BackingField: 0.75
+    <maxSpawnTime>k__BackingField: 1.5
   <objectData>k__BackingField:
     <garbages>k__BackingField:
     - {fileID: 3936010889389682989, guid: 5632eac550e2d424496febde2764d30a, type: 3}
