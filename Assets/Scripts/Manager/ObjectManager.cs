@@ -11,10 +11,12 @@ public class ObjectManager : MonoBehaviour
         Garbage,
         End
     }
-
     public static ObjectManager instance { get; private set; }
+
     private Dictionary<int, Queue<Garbage>> garbageMap;
+
     private Dictionary<HitEffectKey, Queue<ParticleSystem>> hitEffectMap;
+
     private void Awake()
     {
         if (instance != null)
